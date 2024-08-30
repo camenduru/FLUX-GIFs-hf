@@ -83,7 +83,7 @@ with gr.Blocks(css=css) as demo:
             examples=examples,
             fn=predict,
             inputs=[prompt],
-            outputs=[output, seed],
+            outputs=[output, output_stills, seed],
             cache_examples="lazy"
         )
         with gr.Accordion("Advanced Settings", open=False):
