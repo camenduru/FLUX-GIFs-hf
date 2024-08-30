@@ -79,13 +79,7 @@ with gr.Blocks(css=css) as demo:
 
         output = gr.Image(label="GIF", show_label=False)
         output_stills = gr.Image(label="stills", show_label=False, elem_id="stills")
-        gr.Examples(
-            examples=examples,
-            fn=predict,
-            inputs=[prompt],
-            outputs=[output, seed],
-            cache_examples="lazy"
-        )
+
         with gr.Accordion("Advanced Settings", open=False):
             seed = gr.Slider(
                 label="Seed",
@@ -112,6 +106,14 @@ with gr.Blocks(css=css) as demo:
                     step=1,
                     value=28,
                 )
+
+        gr.Examples(
+            examples=examples,
+            fn=predict,
+            inputs=[prompt],
+            outputs=[output, output_stills, seed],
+            cache_examples="lazy"
+        )
 
         gr.on(
             triggers=[submit.click, prompt.submit],
