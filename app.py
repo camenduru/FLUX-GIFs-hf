@@ -70,6 +70,7 @@ examples = [
 
 with gr.Blocks(css=css) as demo:
     with gr.Column(elem_id="col-container"):
+        gr.Markdown("# FLUX Gif Generator")
         gr.Markdown("Create GIFs with Flux-dev. Based on @fofr's [tweet](https://x.com/fofrAI/status/1828910395962343561).")
         gr.Markdown("For better results include a description of the motion in your prompt")
         with gr.Row():
