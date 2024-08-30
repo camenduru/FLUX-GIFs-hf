@@ -71,7 +71,7 @@ with gr.Blocks(css=css) as demo:
         gr.Markdown("Create GIFs with Flux-dev. Based on @fofr's [tweet](https://x.com/fofrAI/status/1828910395962343561)")
         with gr.Row():
             prompt = gr.Text("Prompt", show_label=False, max_lines=1, placeholder="Enter your prompt")
-            submit = gr.Button("Submit", show_label=False)
+            submit = gr.Button("Submit", scale=0)
 
         with gr.Accordion("Advanced Settings", open=False):
                 seed = gr.Slider(
