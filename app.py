@@ -64,13 +64,15 @@ css="""
 examples = [
     "a cat waving its paws in the air",
     "a panda moving their hips from side to side",
+    "a flower going through the process of blooming"
 ]
 
 with gr.Blocks(css=css) as demo:
     with gr.Column(elem_id="col-container"):
-        gr.Markdown("Create GIFs with Flux-dev. Based on @fofr's [tweet](https://x.com/fofrAI/status/1828910395962343561)")
+        gr.Markdown("Create GIFs with Flux-dev. Based on @fofr's [tweet](https://x.com/fofrAI/status/1828910395962343561).")
+        gr.Markdown("For better results include a description of the motion in your prompt")
         with gr.Row():
-            prompt = gr.Text("Prompt", show_label=False, max_lines=1, placeholder="Enter your prompt")
+            prompt = gr.Text(label="Prompt", show_label=False, max_lines=1, placeholder="Enter your prompt")
             submit = gr.Button("Submit", scale=0)
 
         with gr.Accordion("Advanced Settings", open=False):
@@ -100,7 +102,7 @@ with gr.Blocks(css=css) as demo:
                         value=28,
                     )
 
-        output = gr.Image("GIF", show_label=False)
+        output = gr.Image(label="GIF", show_label=False)
         gr.Examples(
             examples=examples,
             fn=predict,
