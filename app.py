@@ -51,7 +51,7 @@ def predict(prompt, seed=42, randomize_seed=False, guidance_scale=5.0, num_infer
         width=WIDTH
     ).images[0]
 
-    return export_to_gif(split_image(image, 4), "flux.gif", fps=4), seed
+    return export_to_gif(split_image(image, 4), "flux.gif", fps=4), output_stills, seed
 
 demo = gr.Interface(fn=predict, inputs="text", outputs="image")
 
@@ -60,6 +60,7 @@ css="""
     margin: 0 auto;
     max-width: 520px;
 }
+#stills{max-height:160px}
 """
 examples = [
     "a cat waving its paws in the air",
@@ -69,40 +70,15 @@ examples = [
 
 with gr.Blocks(css=css) as demo:
     with gr.Column(elem_id="col-container"):
+        gr.Markdown("# FLUX Gif Generator")
         gr.Markdown("Create GIFs with Flux-dev. Based on @fofr's [tweet](https://x.com/fofrAI/status/1828910395962343561).")
         gr.Markdown("For better results include a description of the motion in your prompt")
         with gr.Row():
             prompt = gr.Text(label="Prompt", show_label=False, max_lines=1, placeholder="Enter your prompt")
             submit = gr.Button("Submit", scale=0)
 
-        with gr.Accordion("Advanced Settings", open=False):
-                seed = gr.Slider(
-                    label="Seed",
-                    minimum=0,
-                    maximum=MAX_SEED,
-                    step=1,
-                    value=0,
-                )
-
-                randomize_seed = gr.Checkbox(label="Randomize seed", value=True)
-
-                with gr.Row():
-                    guidance_scale = gr.Slider(
-                        label="Guidance Scale",
-                        minimum=1,
-                        maximum=15,
-                        step=0.1,
-                        value=3.5,
-                    )
-                    num_inference_steps = gr.Slider(
-                        label="Number of inference steps",
-                        minimum=1,
-                        maximum=50,
-                        step=1,
-                        value=28,
-                    )
-
         output = gr.Image(label="GIF", show_label=False)
+        output_stills = gr.Image(label="stills", show_label=False, elem_id="stills")
         gr.Examples(
             examples=examples,
             fn=predict,
@@ -110,12 +86,38 @@ with gr.Blocks(css=css) as demo:
             outputs=[output, seed],
             cache_examples="lazy"
         )
+        with gr.Accordion("Advanced Settings", open=False):
+            seed = gr.Slider(
+                label="Seed",
+                minimum=0,
+                maximum=MAX_SEED,
+                step=1,
+                value=0,
+            )
+
+            randomize_seed = gr.Checkbox(label="Randomize seed", value=True)
+
+            with gr.Row():
+                guidance_scale = gr.Slider(
+                    label="Guidance Scale",
+                    minimum=1,
+                    maximum=15,
+                    step=0.1,
+                    value=3.5,
+                )
+                num_inference_steps = gr.Slider(
+                    label="Number of inference steps",
+                    minimum=1,
+                    maximum=50,
+                    step=1,
+                    value=28,
+                )
 
         gr.on(
             triggers=[submit.click, prompt.submit],
             fn=predict,
             inputs=[prompt, seed, randomize_seed, guidance_scale, num_inference_steps],
-            outputs = [output, seed]
+            outputs = [output, output_stills, seed]
         )
 
 demo.launch()
