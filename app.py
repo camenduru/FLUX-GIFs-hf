@@ -51,7 +51,7 @@ def predict(prompt, seed=42, randomize_seed=False, guidance_scale=5.0, num_infer
         width=WIDTH
     ).images[0]
 
-    return export_to_gif(split_image(image, 4), "flux.gif", fps=4), output_stills, seed
+    return export_to_gif(split_image(image, 4), "flux.gif", fps=4), image, seed
 
 demo = gr.Interface(fn=predict, inputs="text", outputs="image")
 
