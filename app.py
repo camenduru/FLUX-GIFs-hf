@@ -16,7 +16,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 pipe = FluxPipeline.from_pretrained(
     "black-forest-labs/FLUX.1-dev",
     torch_dtype=torch.bfloat16
-).to("device")
+).to(device)
 
 def split_image(input_image, num_splits=4):
     # Create a list to store the output images
